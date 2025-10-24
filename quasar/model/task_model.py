@@ -4,7 +4,7 @@ from typing import Callable, List
 
 
 @dataclass
-class Task_Model:
+class TaskModel:
     id: uuid.UUID = field(default_factory=uuid.uuid4)
     name: str | None = None
     func: Callable = None

@@ -3,7 +3,7 @@ import uuid
 from dataclasses import dataclass, field
 from uuid import uuid4
 
-from quasar.model.task_model import Task_Model
+from quasar.model.task_model import TaskModel
 
 class TaskExecutionStatus:
     PENDING = "PENDING"
@@ -21,9 +21,9 @@ class TaskExecutionModel:
     finished_at: datetime.datetime | None = None
     retry: bool = False
     attempt_count: int | None = None
-    related_task: Task_Model | None = None
+    related_task: TaskModel | None = None
 
-    def __init__(self, task: Task_Model):
+    def __init__(self, task: TaskModel):
         self.related_task = task
         self.execution_id = uuid.uuid4()
         self.status = TaskExecutionStatus.PENDING
