@@ -33,6 +33,5 @@ jobs:
 
       - name: Run linters
         run: |
-          uv run ruff check --dev .
-          uv run ruff fix --dev .
+          uv run ruff check -- --dev .
           uv run mypy quasar
