@@ -21,6 +21,10 @@ dev = [
 
 [tool.uv.dependency-groups.dev]
 ruff = "*"
+black = "*"
+isort = "*"
 mypy = "*"
 pytest = "*"
 pytest-cov = "*"
+pydocstyle = "*"
+tox = "*"
