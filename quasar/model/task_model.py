@@ -26,5 +26,3 @@ class TaskModel:
             "func": self.func,
             "depends_on": self.depends_on,
         }
-
-

@@ -1,5 +1,7 @@
 import uuid
+
 from quasar.model.task_model import TaskModel
+
 
 class TaskRegistry:
     def __init__(self):

@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 
 from quasar.model.task_model import TaskModel
 
+
 class TaskExecutionStatus:
     PENDING = "PENDING"
     RUNNING = "RUNNING"
@@ -11,6 +12,7 @@ class TaskExecutionStatus:
     FAILED = "FAILED"
     ERROR = "ERROR"
     UNKNOWN = "UNKNOWN"
+
 
 @dataclass
 class TaskExecutionModel:
@@ -28,4 +30,3 @@ class TaskExecutionModel:
         self.status = TaskExecutionStatus.PENDING
         self.started_at = None
         self.finished_at = None
-

@@ -1,5 +1,5 @@
-from quasar.model.taskexecution_model import TaskExecutionModel
 from quasar.model.task_model import TaskModel
+from quasar.model.taskexecution_model import TaskExecutionModel
 from quasar.services.task_registry import TaskRegistry
 
 
