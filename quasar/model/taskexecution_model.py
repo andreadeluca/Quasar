@@ -1,7 +1,6 @@
 import datetime
 import uuid
 from dataclasses import dataclass, field
-from uuid import uuid4
 
 from quasar.model.task_model import TaskModel
 

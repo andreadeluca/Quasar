@@ -1,6 +1,5 @@
 import typer
 from rich import print
-from quasar.core.task_decorator import TASK_REGISTRY
 import importlib
 
 app = typer.Typer()
