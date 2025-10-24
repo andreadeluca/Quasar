@@ -6,8 +6,8 @@ from typing import Callable, List
 @dataclass
 class TaskModel:
     id: uuid.UUID = field(default_factory=uuid.uuid4)
-    name: str | None = None
-    func: Callable = None
+    name: str = field(default_factory=str)
+    func: Callable = field(default_factory=lambda: lambda x: x)
     depends_on: List[str] = field(default_factory=list)
 
     @classmethod
@@ -22,7 +22,7 @@ class TaskModel:
     def to_dict(self) -> dict:
         return {
             "id": str(self.id),
-            "name": self.name or self.func.__name__,
+            "name": self.name,
             "func": self.func,
             "depends_on": self.depends_on,
         }
