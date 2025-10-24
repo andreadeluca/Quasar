@@ -7,10 +7,13 @@ app = typer.Typer()
 
 @app.command()
 def run() -> None:
+    #TODO da considerare l'async: stiamo leggendo da fs
+    #TODO aggiungere logica try except e gestione errori
+    #TODO spostare tutto in servizio relativo, forse è più ordinato
+    importlib.invalidate_caches()
     importlib.import_module("quasar.examples.example")
 
-    # ora TASK_REGISTRY è pieno
-    print(f"Ciao Niko ora  {len(TASK_REGISTRY.get_all())} tasks.")
+
 @app.command()
 def list() -> None:
     print("Listo niko")

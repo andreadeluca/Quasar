@@ -4,7 +4,7 @@ from typing import Callable, List
 
 
 @dataclass
-class Task:
+class Task_Model:
     id: uuid.UUID = field(default_factory=uuid.uuid4)
     name: str | None = None
     func: Callable = None
@@ -28,22 +28,3 @@ class Task:
         }
 
 
-class TaskRegistry:
-    def __init__(self):
-        self.tasks: dict[uuid.UUID, Task] = {}
-
-    def register(self, task: Task) -> Task:
-        self.tasks[task.id] = task
-        return task
-
-    def get_task_by_id(self, id: uuid.UUID) -> Task:
-        return self.tasks[id]
-
-    def get_all(self) -> list[Task]:
-        return list(self.tasks.values())
-
-    def clear(self):
-        self.tasks.clear()
-
-    def count(self):
-        return len(self.tasks)
