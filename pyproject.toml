@@ -17,3 +17,10 @@ dependencies = [
 dev = [
     "pytest>=8.4.2",
 ]
+
+
+[tool.uv.dependency-groups.dev]
+ruff = "*"
+mypy = "*"
+pytest = "*"
+pytest-cov = "*"
