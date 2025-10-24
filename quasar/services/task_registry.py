@@ -3,7 +3,7 @@ from quasar.model.task_model import TaskModel
 
 class TaskRegistry:
     def __init__(self):
-        self.tasks: dict[uuid.UUID, TaskModel] = {}
+        self.tasks = {}
 
     def register(self, task: TaskModel) -> TaskModel:
         self.tasks[task.id] = task
