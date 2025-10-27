@@ -5,17 +5,19 @@ from quasar.model.task_model import TaskModel
 
 class TaskRegistry:
     def __init__(self):
-        self.tasks = {}
+        self.tasks = []
 
-    def register(self, task: TaskModel) -> TaskModel:
-        self.tasks[task.id] = task
-        return task
+    def register(self, task: TaskModel):
+        self.tasks.append(task)
 
-    def get_task_by_id(self, id: uuid.UUID) -> TaskModel:
-        return self.tasks[id]
+    def get_task_by_name(self, name: str) -> TaskModel | None:
+        for task in self.tasks:
+            if task.name == name:
+                return task
+        return None
 
-    def get_all(self) -> list[TaskModel]:
-        return list(self.tasks.values())
+    def is_in_task_registry_by_name(self, name: str) -> bool:
+        return True if self.get_task_by_name(name) else False
 
     def clear(self):
         self.tasks.clear()
