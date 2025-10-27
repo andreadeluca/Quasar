@@ -1,3 +1,5 @@
+from collections import defaultdict, deque
+
 from quasar.model.task_model import TaskModel
 from quasar.services.task_registry import TaskRegistry
 
@@ -74,34 +76,60 @@ class Runner:
     def _build_graph(tasks: list[TaskModel]) -> dict[str, list]:
         return {task.name: list(task.depends_on) for task in tasks}
 
+
     @staticmethod
-    def _resolve_execution_order(graph: dict[str, list[str]], tasks: list[TaskModel]) -> list[TaskModel]:
+    def _resolve_execution_order(tasks: list[TaskModel]) -> list[TaskModel]:
         task_map = {t.name: t for t in tasks}
-        g = {name: set(deps) for name, deps in graph.items()}  # usare set per performance
-        ready = [name for name, deps in g.items() if not deps]
-        execution_order: list[TaskModel] = []
+        deps = {t.name: set(t.depends_on) for t in tasks}
+        ready = [name for name, d in deps.items() if not d]
+        order = []
 
         if not ready:
-            msg = "[ERROR] No root tasks found! Circular dependency detected."
-            print(msg)
-            raise RuntimeError(msg)
-
+            raise RuntimeError("No root tasks found! Circular dependency detected.")
+            #TODO maybe it would be better to specify a specific error for this case... "CircularDependencyError"
         while ready:
-            current = ready.pop(0)  # FIFO
-            execution_order.append(task_map[current])
-
-            for name, deps in g.items():
-                if current in deps:
-                    deps.remove(current)
-                    if not deps and name not in [t.name for t in execution_order] and name not in ready:
+            current = ready.pop(0)
+            order.append(task_map[current])
+            for name, d in deps.items():
+                if current in d:
+                    d.remove(current)
+                    if not d and name not in [t.name for t in order] and name not in ready:
                         ready.append(name)
+            deps[current].clear()
 
-            g[current].clear()
+        if any(deps.values()):
+            raise RuntimeError("Circular dependency detected.")
 
-        if any(g[name] for name in g):
-            msg = "[ERROR] Circular dependency detected: some tasks could not be resolved."
-            print(msg)
-            raise RuntimeError(msg)
+        return order
 
-        return execution_order
+    '''
+    Method that needs to be tested.
+    #TODO in the future, it would be nice that it would be possible to choose between algorithms.
+    '''
 
+    @staticmethod
+    def stable_toposort(tasks, deps):
+        indegree = {t: 0 for t in tasks}
+        graph = defaultdict(set)
+
+        # Costruisci grafo e indegree
+        for task in tasks:
+            for d in deps.get(task, ()):
+                graph[d].add(task)
+                indegree[task] += 1
+
+        # Coda stabile (ordine di inserimento)
+        q = deque([t for t in tasks if indegree[t] == 0])
+        out = []
+
+        while q:
+            t = q.popleft()
+            out.append(t)
+
+            for v in graph[t]:
+                indegree[v] -= 1
+                if indegree[v] == 0:
+                    q.append(v)  # mantiene ordine originale
+        if len(out) != len(tasks):
+            raise ValueError("Ciclo di dipendenze rilevato")
+        return out

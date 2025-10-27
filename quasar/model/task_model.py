@@ -1,3 +1,4 @@
+from datetime import datetime
 import uuid
 from dataclasses import dataclass, field
 from typing import Callable, List
@@ -9,6 +10,10 @@ class TaskModel:
     name: str = field(default_factory=str)
     func: Callable = field(default_factory=lambda: lambda x: x)
     depends_on: List[str] = field(default_factory=list)
+    created_at: datetime = field(default_factory=lambda: datetime.now())
+    retries : int = field(default=0)
+    timeout: int = field(default=0)
+
 
     @classmethod
     def from_dict(cls, task_dict: dict):
