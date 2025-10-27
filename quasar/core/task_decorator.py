@@ -11,7 +11,7 @@ def task(depends_on=None):
 
     def decorator(func: Callable):
         # TODO Formal control parsing module?
-        t = TaskModel(func=func, depends_on=depends_on)
+        t = TaskModel(func=func, name=func.__name__, depends_on=depends_on)
         TASK_REGISTRY.register(t)
         return func
 
