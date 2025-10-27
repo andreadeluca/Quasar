@@ -28,6 +28,9 @@ class Runner:
         print("[INFO] Task execution order:")
         [print(f"{e}") for e in _execution_list]
 
+        #execute tasks
+        for task in _execution_list:
+            task.func()
 
 
     def _check_deps(self, tasks: list[TaskModel]) -> dict[str, list]:
@@ -71,15 +74,17 @@ class Runner:
     def _build_graph(tasks: list[TaskModel]) -> dict[str, list]:
         return {task.name: list(task.depends_on) for task in tasks}
 
-    def _resolve_execution_order(self, graph: dict[str, list[str]], tasks: list[TaskModel]) -> list[TaskModel]:
+    @staticmethod
+    def _resolve_execution_order(graph: dict[str, list[str]], tasks: list[TaskModel]) -> list[TaskModel]:
         task_map = {t.name: t for t in tasks}
         g = {name: set(deps) for name, deps in graph.items()}  # usare set per performance
         ready = [name for name, deps in g.items() if not deps]
         execution_order: list[TaskModel] = []
 
         if not ready:
-            print("[ERROR] No root tasks found! Circular dependency detected.")
-            return []
+            msg = "[ERROR] No root tasks found! Circular dependency detected."
+            print(msg)
+            raise RuntimeError(msg)
 
         while ready:
             current = ready.pop(0)  # FIFO
@@ -94,7 +99,9 @@ class Runner:
             g[current].clear()
 
         if any(g[name] for name in g):
-            print("[ERROR] Circular dependency detected: some tasks could not be resolved.")
+            msg = "[ERROR] Circular dependency detected: some tasks could not be resolved."
+            print(msg)
+            raise RuntimeError(msg)
 
         return execution_order
 
