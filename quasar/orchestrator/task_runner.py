@@ -2,7 +2,7 @@ from quasar.model.task_model import TaskModel
 from quasar.services.task_registry import TaskRegistry
 from quasar.utils.logging_factory import get_logger
 from services.deps_checker import DepsChecker
-from services.taskExecution_service import TaskExecutionService
+from services.task_executioner import TaskExecutioner
 from services.task_resolver import TaskResolver
 
 logger = get_logger(__name__)
@@ -30,6 +30,7 @@ class TaskOrchestrator:
             for w in results["warnings"]:
                 logger.debug(f"  - {w['task']} → {w['issue']}")
 
-        executioner = TaskExecutionService(solver.resolve_execution_order())
+        execution_list = solver.resolve_execution_order()
+        executioner = TaskExecutioner(execution_list)
         executioner.execute_tasks()
 
