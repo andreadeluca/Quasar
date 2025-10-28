@@ -1,7 +1,8 @@
 import pytest
-from quasar.services.task_runner import Runner
+
 from quasar.model.task_model import TaskModel
 from quasar.services.task_registry import TaskRegistry
+from orchestrator.task_runner import TaskOrchestrator
 
 
 @pytest.fixture
@@ -31,7 +32,7 @@ def test_execution_order_is_valid(complex_tasks):
     """
     registry = TaskRegistry()
     registry.tasks = complex_tasks
-    runner = Runner(task_registry=registry)
+    runner = TaskOrchestrator(task_registry=registry)
 
     # Costruisco grafo e ordine di esecuzione
     graph = runner._build_graph(complex_tasks)
@@ -61,7 +62,7 @@ def test_detects_circular_dependency():
         TaskModel(name="a", depends_on=["b"]),
         TaskModel(name="b", depends_on=["a"]),
     ]
-    runner = Runner(task_registry=registry)
+    runner = TaskOrchestrator(task_registry=registry)
     graph = runner._build_graph(registry.tasks)
 
     with pytest.raises(RuntimeError):
