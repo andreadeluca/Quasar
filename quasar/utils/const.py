@@ -1,0 +1,3 @@
+
+class CONST :
+    DEFAULT_ALGORITHM : str =  "DEFAULT"

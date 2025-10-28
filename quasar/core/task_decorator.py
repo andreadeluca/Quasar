@@ -11,8 +11,11 @@ def task(depends_on=None):
 
     def decorator(func: Callable):
         # TODO Formal control parsing module?
-        t = TaskModel(func=func, name=func.__name__, depends_on=depends_on)
-        TASK_REGISTRY.register(t)
+        if not TASK_REGISTRY.is_in_task_registry_by_name(func.__name__):
+            t = TaskModel(func=func, name=func.__name__, depends_on=depends_on)
+            TASK_REGISTRY.register(t)
+        else:
+            raise RuntimeError(f"Task {func.__name__} already registered, task name must be unique.")
         return func
 
     return decorator
