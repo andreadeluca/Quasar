@@ -1,5 +1,5 @@
-from model.task_model import TaskModel
-from services.task_registry import TaskRegistry
+from quasar.model.task_model import TaskModel
+from quasar.services.task_registry import TaskRegistry
 
 
 class DepsChecker:

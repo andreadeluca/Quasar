@@ -9,6 +9,7 @@ class TaskModel:
     id: uuid.UUID = field(default_factory=uuid.uuid4)
     name: str = field(default_factory=str)
     func: Callable = field(default_factory=lambda: lambda x: x)
+    module : str = field(default_factory=str)
     depends_on: List[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=lambda: datetime.now())
     retries : int = field(default=0)

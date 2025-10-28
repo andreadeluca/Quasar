@@ -23,6 +23,7 @@ class TaskExecutionModel:
     retry: bool = False
     attempt_count: int | None = None
     related_task: TaskModel | None = None
+    failing_reason: str | None = None
 
     def __init__(self, task: TaskModel):
         self.related_task = task
