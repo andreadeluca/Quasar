@@ -21,7 +21,7 @@ class TaskExecutionModel:
     started_at: datetime.datetime | None = None
     finished_at: datetime.datetime | None = None
     retry: bool = False
-    attempt_count: int | None = None
+    attempt_count: int | None = 0
     related_task: TaskModel | None = None
     failing_reason: str | None = None
 
