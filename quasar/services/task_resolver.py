@@ -2,23 +2,37 @@ from collections import defaultdict, deque
 
 from model.task_model import TaskModel
 from services.task_registry import TaskRegistry
-from utils.const import CONST
+from utils.algorithms import ALGORITHMS
 from utils.errorManager import CircularDependencyError
 
 
 class TaskResolver:
-    def __init__(self, task_registry: TaskRegistry):
+    def __init__(self, task_registry: TaskRegistry, algorithm: str):
         self.task_registry = task_registry
         self.execution_order = []
-        self.algorithm = CONST.DEFAULT_ALGORITHM
+        self.algorithm = algorithm
 
 
-    def resolve_execution_order(self, tasks: list[TaskModel] | None = None)  -> list[TaskModel] | None:
+    def resolve_execution_order(self, tasks: list[TaskModel] | None = None, algorithm=ALGORITHMS.DEFAULT_ALGORITHM)  -> list[TaskModel] | None:
         if tasks is None:
             tasks = self.task_registry.tasks
 
-        task_map = {t.name: t for t in tasks}
+
         deps = {t.name: set(t.depends_on) for t in tasks}
+
+        match algorithm:
+            case ALGORITHMS.DEFAULT_ALGORITHM:
+                self.default_algorithm(tasks,deps)
+            case ALGORITHMS.STABLE_TOPOSORT_ALGORITHM:
+                self.stable_toposort(tasks,deps)
+            case _:
+                raise RuntimeError(f"Unsupported algorithm: {algorithm}")
+
+
+        return self.execution_order
+
+    def default_algorithm(self, tasks: list[TaskModel], deps : dict):
+        task_map = {t.name: t for t in tasks}
         ready = [name for name, d in deps.items() if not d]
         self.execution_order = []
 
@@ -36,16 +50,12 @@ class TaskResolver:
 
         if any(deps.values()):
             raise CircularDependencyError("Circular dependency detected.")
-
-        return self.execution_order
-
     '''
     Method that needs to be tested.
     #TODO in the future, it would be nice that it would be possible to choose between algorithms.
     '''
 
-    @staticmethod
-    def stable_toposort(tasks, deps):
+    def stable_toposort(self, tasks: list[TaskModel], deps : dict):
         indegree = {t: 0 for t in tasks}
         graph = defaultdict(set)
 
@@ -57,16 +67,15 @@ class TaskResolver:
 
         # Coda stabile (ordine di inserimento)
         q = deque([t for t in tasks if indegree[t] == 0])
-        out = []
+        self.execution_order = []
 
         while q:
             t = q.popleft()
-            out.append(t)
+            self.execution_order.append(t)
 
             for v in graph[t]:
                 indegree[v] -= 1
                 if indegree[v] == 0:
                     q.append(v)  # mantiene ordine originale
-        if len(out) != len(tasks):
+        if len(self.execution_order) != len(tasks):
             raise CircularDependencyError("Circular dependency detected.")
-        return out

@@ -12,7 +12,6 @@ def task(depends_on=None, retries=0):
 
     def decorator(func: Callable):
         t = TaskModel(func=func, name=func.__name__, depends_on=depends_on, module=func.__module__, retries=retries | 0)
-        logger.info(f"Task {t.__repr__()} registered with name {t.func.__name__}")
         TASK_REGISTRY.register(t)
         return func
 

@@ -3,7 +3,7 @@ from quasar.utils.logging_factory import get_logger
 
 logger = get_logger(__name__)
 
-    # --- LEVEL 1: ROOT TASKS ---
+# --- LEVEL 1: ROOT TASKS ---
 @task()
 def setup_env():
     logger.debug("[setup_env] Setting up environment...")
