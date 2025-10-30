@@ -36,6 +36,7 @@ class TaskExecutioner:
                 if execution.attempt_count <= task.retries:
                     logger.error(f"Task {task.name} failed {execution.attempt_count} time(s)). Will retry.")
                     retry_queue.put(execution)
-                #TODO Retry policy, fatal error handling and much more goes here
+                #TODO Add a final report of the executions........
             finally:
                 execution.finished_at = datetime.now()
+                logger.info(f"Task {task.name} finished in {execution.finished_at - execution.started_at}")
