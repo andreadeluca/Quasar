@@ -1,6 +1,3 @@
-import importlib
-import py_compile
-from pathlib import Path
 
 import typer
 
@@ -25,7 +22,7 @@ def run(
     # TODO spostare tutto in servizio relativo, forse è più ordinato
     if not (path_module and path_module.strip()):
         raise typer.BadParameter(
-            f"Please specify a file or a directory. (E.g. 'quasar.examples.example' or 'src/tasks/'")
+            "Please specify a file or a directory. (E.g. 'quasar.examples.example' or 'src/tasks/'")
 
     module_manager = ModuleManager(path_module)
     module_manager.import_module()

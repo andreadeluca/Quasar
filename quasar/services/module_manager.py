@@ -70,8 +70,8 @@ class ModuleManager:
         try:
             invalidate_caches()
             importlib.import_module(self.module_name)
-            logger.debug(f"✅ Successfully imported '{self.module_name}'.")
+            logger.debug(f"Successfully imported '{self.module_name}'.")
             return True
         except Exception as e:
-            logger.error(f"❌ Failed to import '{self.module_name}': {e}")
+            logger.error(f"Failed to import '{self.module_name}': {e}")
             return False

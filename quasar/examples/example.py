@@ -66,7 +66,7 @@ def notify_team():
 
 
 # --- LEVEL 7: FINAL TASK ---
-@task(depends_on=["smoke_test", "notify_team"], retries=5)
+@task(depends_on=["smoke_test", "notify_team"], retries=506)
 def promote_to_production():
     logger.debug("[promote_to_production] Promoting build to production 🎉")
     raise NotImplementedError
