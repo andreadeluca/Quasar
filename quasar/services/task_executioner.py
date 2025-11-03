@@ -1,5 +1,6 @@
-from queue import Queue, LifoQueue
 from datetime import datetime
+from queue import Queue, LifoQueue
+
 from quasar.model.task_model import TaskModel
 from quasar.model.taskexecution_model import TaskExecutionModel
 from quasar.utils.logging_factory import get_logger

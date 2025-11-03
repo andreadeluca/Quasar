@@ -3,6 +3,7 @@ from typing import Callable
 from quasar.model.task_model import TaskModel
 from quasar.services.task_registry import TaskRegistry
 from quasar.utils.logging_factory import get_logger
+
 TASK_REGISTRY = TaskRegistry()
 
 logger = get_logger(__name__)
