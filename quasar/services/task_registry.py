@@ -1,3 +1,5 @@
+import inspect
+
 from quasar.model.task_model import TaskModel
 
 
@@ -6,11 +8,15 @@ class TaskRegistry:
         self.tasks = []
 
     def register(self, task: TaskModel):
-        # TODO Formal control parsing module?
+
+        if inspect.iscoroutinefunction(task.func):
+            raise RuntimeError('Async function are not supported at the moment')
+
         if not self.is_in_task_registry_by_name(task.func.__name__):
             self.tasks.append(task)
         else:
             raise RuntimeError(f"Task {task.func.__name__} already registered, task name must be unique.")
+
 
     def get_task_by_name(self, name: str) -> TaskModel | None:
         for task in self.tasks:

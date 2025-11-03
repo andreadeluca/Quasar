@@ -4,7 +4,7 @@ from quasar.utils.logging_factory import get_logger
 from services.deps_checker import DepsChecker
 from services.task_executioner import TaskExecutioner
 from services.task_resolver import TaskResolver
-from utils.algorithms import ALGORITHMS
+from utils.const import ALGORITHMS
 
 logger = get_logger(__name__)
 

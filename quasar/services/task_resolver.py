@@ -2,7 +2,7 @@ from collections import defaultdict, deque
 
 from model.task_model import TaskModel
 from services.task_registry import TaskRegistry
-from utils.algorithms import ALGORITHMS
+from utils.const import ALGORITHMS
 from utils.errorManager import CircularDependencyError
 
 
