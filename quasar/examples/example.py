@@ -12,8 +12,6 @@ def setup_env():
 @task(retries=5)
 def init_db():
     logger.debug("[init_db] Initializing database...")
-    raise NotImplementedError
-
 
 # --- LEVEL 2: TASKS THAT DEPENDS FROM JUST ONE TASK ---
 @task(depends_on=["setup_env"])
@@ -69,4 +67,3 @@ def notify_team():
 @task(depends_on=["smoke_test", "notify_team"], retries=506)
 def promote_to_production():
     logger.debug("[promote_to_production] Promoting build to production 🎉")
-    raise NotImplementedError
