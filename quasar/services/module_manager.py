@@ -53,7 +53,7 @@ class ModuleManager:
 
     def import_module(self) -> bool:
         """
-        Valida e importa dinamicamente un modulo Python.
+        Validates and dynamically import a python module
         """
         if not self.file_path.exists():
             raise FileNotFoundError(f"File '{self.file_path}' does not exists.")

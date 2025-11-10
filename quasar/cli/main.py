@@ -29,10 +29,7 @@ def run(
     runner = TaskOrchestrator(TASK_REGISTRY, algorithm)
     runner.run_tasks()
 
-
-@app.command()
-def list() -> None:
-    logger.debug("Listo niko")
+#TODO IMPLEMENT TASK SHOWING AND RELATIVE DEPENDENCES
 
 
 if __name__ == "__main__":

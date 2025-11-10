@@ -12,6 +12,7 @@ def task(depends_on=None, retries=0):
     depends_on = depends_on or []
 
     def decorator(func: Callable):
+        func.__is_quasar_task__ = True #Tagging tasks for future uses
         t = TaskModel(func=func, name=func.__name__, depends_on=depends_on, module=func.__module__, retries=retries | 0)
         TASK_REGISTRY.register(t)
         return func
